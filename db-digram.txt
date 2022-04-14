@@ -1,0 +1,89 @@
+Table user {
+  id int [pk, increment]
+  firstName varchar(100) [not null]
+  lastName varchar(100) [not null]
+  email varchar(255) [not null]
+  password varchar(60) [not null]
+}
+
+Table role {
+  id int [pk, increment]
+  name varchar(50) [not null]
+}
+
+Table education {
+  id int [pk, increment]
+  name varchar(50) [not null]
+  shortName varchar(5) [not null]
+  length int [not null]
+}
+
+Table class {
+  id int [pk, increment]
+  name varchar(50) [not null]
+  shortName varchar(5) [not null]
+}
+
+Table course {
+  id int [pk, increment]
+  name varchar(50) [not null]
+  shortName varchar(5) [not null]
+  semester int [not null]
+  period int [not null]
+  cohort int [not null]
+  scheduleId int [null, ref: > schedule.id]
+}
+
+Table schedule {
+  id int [pk, increment]
+}
+
+Table assignment {
+  id int [pk, increment]
+  name varchar(50) [not null]
+  description text [not null]
+  endDate datetime [not null]
+}
+
+
+Table courseowners {
+  id int [pk, increment]
+  courseId int [not null, ref: > course.id]
+  userId int [not null, ref: > user.id]
+}
+
+Table scheduleassignment {
+  id int [pk, increment]
+  scheduleId int [not null, ref: > schedule.id]
+  assignmentId int [not null, ref: > assignment.id]
+}
+
+Table usereducation {
+  id int [pk, increment]
+  userId int [not null, ref: > user.id]
+  educationId int [not null, ref: > education.id]
+}
+
+Table userclass {
+  id int [pk, increment]
+  userId int [not null, ref: > user.id]
+  classId int [not null, ref: > class.id]
+}
+
+Table userrole {
+  id int [pk, increment]
+  userId int [not null, ref: > user.id]
+  roleId int [not null, ref: > role.id]
+}
+
+Table rolepermission {
+  id int [pk, increment]
+  roleId int [not null, ref: > role.id]
+  permission Permission [not null]
+}
+
+enum Permission {
+  USER_CREATE
+  USER_DELETE
+  USER_EDIT
+}
